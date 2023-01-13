@@ -1,6 +1,7 @@
 rootProject.name = 'replay'
 include 'framework'
 include 'guice'
+include 'avajeinject'
 include 'liquibase'
 include 'netty3'
 include 'netty4'

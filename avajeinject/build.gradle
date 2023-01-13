@@ -1,0 +1,7 @@
+dependencies {
+  api project(':framework')
+
+  api('io.avaje:avaje-inject:9.8-RC1')
+}
+
+apply from: rootProject.file('gradle/deploy.gradle')
