@@ -1,11 +1,11 @@
 # The RePlay Framework &nbsp; [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codeborne.replay/framework/badge.svg?style=flat-square)](https://mvnrepository.com/artifact/com.codeborne.replay/framework)
 ```
-    ##### #####                _            _
-   ##### #####  _ __ ___ _ __ | | __ _ _  _| |
-  ##### #####  | '_ / -_) '_ \| |/ _' | || |_|
- ##### #####   |_/  \___|  __/|_|\____|\__ (_)
-##### #####             |_|            |__/
-               RePlay Framework, https://github.com/codeborne/replay
+    ______  ______                 _            _
+   /     / /     /  _ __ ___ _ __ | | __ _ _  _| |
+  /     / /     /  | '_ / -_) '_ \| |/ _' | || |_|
+ /     / /     /   |_/  \___|  __/|_|\____|\__ (_)
+/_____/ /_____/             |_|            |__/
+                   RePlay Framework, https://github.com/codeborne/replay
 ```
 
 RePlay is a fork of the [Play1](https://github.com/playframework/play1) framework, made and maintained by [Codeborne](https://codeborne.com).
