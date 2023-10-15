@@ -1,6 +1,7 @@
 dependencies {
   implementation project(':fastergt')
-  implementation project(':guice')
+  implementation project(':avajeinject')
+  annotationProcessor('io.avaje:avaje-inject-generator:9.8-RC1')
   implementation project(':pdf')
   implementation("org.apache.httpcomponents:httpclient:$httpclientVersion")
   implementation("org.apache.httpcomponents:fluent-hc:$httpclientVersion")
@@ -10,6 +11,8 @@ dependencies {
   testImplementation('com.github.tomakehurst:wiremock:3.0.1') {
     exclude group: 'org.eclipse.jetty', module: 'jetty-client'
   }
+  testImplementation('io.avaje:avaje-inject-test:9.8-RC1')
+  testAnnotationProcessor('io.avaje:avaje-inject-generator:9.8-RC1')
 }
 
 apply from: '../replay-tests.gradle'

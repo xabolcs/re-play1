@@ -1,6 +1,6 @@
 package services;
 
-import com.google.inject.name.Named;
+import criminals.annotation.CriminalRecordsServiceUrl;
 import models.CriminalRecord;
 import models.Verdict;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class CriminalSafetyCalculator {
   private final String serviceUrl;
 
   @Inject
-  CriminalSafetyCalculator(RestClient restClient, @Named("criminal-records.service.url") String serviceUrl) {
+  CriminalSafetyCalculator(RestClient restClient, @CriminalRecordsServiceUrl String serviceUrl) {
     this.restClient = restClient;
     this.serviceUrl = serviceUrl;
   }

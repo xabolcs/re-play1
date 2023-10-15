@@ -1,7 +1,10 @@
 package criminals;
 
-import play.modules.guice.GuiceBeanSource;
-import play.server.Starter;
+import io.avaje.inject.Component;
+
+import play.Play;
+import play.modules.avajeinject.AvajeInjectBeanSource;
+import play.server.Server;
 
 import javax.annotation.Nullable;
 import java.util.Properties;
@@ -18,8 +21,12 @@ public class Application {
     if (criminalRecordsServiceUrl != null) {
       configuration.setProperty("criminal-records.service.url", criminalRecordsServiceUrl);
     }
-    GuiceBeanSource guice = new GuiceBeanSource(new Module(configuration));
-    return Starter.start(playId, guice);
+    Configuration configModule = new Configuration(configuration);
+    AvajeInjectBeanSource avaje = new AvajeInjectBeanSource();
+    Play play = new Play(avaje);
+    play.init(playId);
+    play.start();
+    return new Server(play).start();
   }
 
   public static void main(String[] args) {
