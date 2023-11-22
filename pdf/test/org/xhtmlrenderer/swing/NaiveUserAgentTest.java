@@ -2,7 +2,6 @@ package org.xhtmlrenderer.swing;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import play.vfs.VirtualFile;
 
 import java.io.File;
 import java.net.URI;
@@ -24,7 +23,7 @@ public class NaiveUserAgentTest {
   @Test
   public void resolveUrlToLocalFile() throws Exception {
     URI uri = getClass().getResource("NaiveUserAgentTest.class").toURI();
-    when(fileSearcher.searchFor("org/blah/NaiveUserAgentTest.class")).thenReturn(VirtualFile.open(new File(uri)));
+    when(fileSearcher.searchFor("org/blah/NaiveUserAgentTest.class")).thenReturn(new File(uri));
 
     assertThat(naiveUserAgent.resolveURI("org/blah/NaiveUserAgentTest.class")).isEqualTo(uri.toURL().toString());
   }
@@ -32,7 +31,7 @@ public class NaiveUserAgentTest {
   @Test
   public void ignoresUrlParamsWhenResolvingToLocalFile() throws Exception {
     URI uri = getClass().getResource("NaiveUserAgentTest.class").toURI();
-    when(fileSearcher.searchFor("org/blah/NaiveUserAgentTest.class")).thenReturn(VirtualFile.open(new File(uri)));
+    when(fileSearcher.searchFor("org/blah/NaiveUserAgentTest.class")).thenReturn(new File(uri));
 
     assertThat(naiveUserAgent.resolveURI("org/blah/NaiveUserAgentTest.class?123213231")).isEqualTo(uri.toURL().toString());
   }

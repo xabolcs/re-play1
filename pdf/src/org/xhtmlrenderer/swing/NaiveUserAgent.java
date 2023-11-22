@@ -10,7 +10,6 @@ import org.xhtmlrenderer.resource.ImageResource;
 import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.util.XRLog;
 import play.Play;
-import play.vfs.VirtualFile;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.*;
@@ -308,10 +307,10 @@ public class NaiveUserAgent implements UserAgentCallback, DocumentListener {
     try {
       // try to find it in play
       String filePath = uri.replaceFirst("\\?.*", "");
-      VirtualFile file = fileSearcher.searchFor(filePath);
-      logger.debug("Resolved uri {} to file {}", uri, file == null ? null : file.getRealFile().getAbsolutePath());
+      File file = fileSearcher.searchFor(filePath);
+      logger.debug("Resolved uri {} to file {}", uri, file == null ? null : file.getAbsolutePath());
       if (file != null && file.exists())
-        return file.getRealFile().getCanonicalFile().toURI().toURL().toExternalForm();
+        return file.getCanonicalFile().toURI().toURL().toExternalForm();
       return new URL(uri).toString();
     }
     catch (IOException e) {

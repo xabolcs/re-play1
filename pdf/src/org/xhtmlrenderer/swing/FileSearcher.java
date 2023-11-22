@@ -1,10 +1,11 @@
 package org.xhtmlrenderer.swing;
 
 import play.Play;
-import play.vfs.VirtualFile;
+
+import java.io.File;
 
 public class FileSearcher {
-  public VirtualFile searchFor(String filePath) {
+  public File searchFor(String filePath) {
     return Play.getVirtualFile(filePath);
   }
 }
