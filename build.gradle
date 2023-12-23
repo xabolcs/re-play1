@@ -1,6 +1,8 @@
 defaultTasks 'clean', 'check', 'publishToMavenLocal'
 
 ext {
+  javaVersion = 11
+
   commonsLangVersion = '3.14.0'
   netty4Version = '4.1.104.Final'
   commonsTextVersion = '1.11.0'
@@ -28,8 +30,9 @@ subprojects {
     options.debug = true
     options.debugOptions.debugLevel = "source,lines,vars"
   }
-  sourceCompatibility = 11
-  targetCompatibility = 11
+  java.toolchain {
+    languageVersion = JavaLanguageVersion.of(javaVersion)
+  }
 
   repositories {
     mavenCentral()
