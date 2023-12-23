@@ -1,23 +1,23 @@
 defaultTasks 'clean', 'check', 'publishToMavenLocal'
 
 ext {
-  commonsLangVersion = '3.13.0'
-  netty4Version = '4.1.101.Final'
+  commonsLangVersion = '3.14.0'
+  netty4Version = '4.1.104.Final'
   commonsTextVersion = '1.11.0'
   slf4jVersion = '2.0.9'
   assertjVersion = '3.24.2'
-  mockitoVersion = '5.7.0'
+  mockitoVersion = '5.8.0'
   pdfTestVersion = '1.8.1'
-  groovyVersion = '3.0.19'
+  groovyVersion = '3.0.20'
   httpclientVersion = '4.5.14'
-  restAssuredVersion = '5.3.2'
+  restAssuredVersion = '5.4.0'
   junitVersion = '5.10.1'
 }
 
 subprojects {
 
-  group='com.codeborne.replay'
-  version=project.properties['revision'] ?: '2.2.0'
+  group='io.github.replay-framework'
+  version=project.properties['revision'] ?: '2.3.1'
 
   apply plugin: 'java'
   apply plugin: 'java-library'

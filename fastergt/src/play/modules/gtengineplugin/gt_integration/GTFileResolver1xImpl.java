@@ -57,7 +57,7 @@ public class GTFileResolver1xImpl implements GTFileResolver.Resolver {
             }
         }
 
-        // try to find in classpath (e.g. "tags/select.tag" is located in "com.codeborne.replay:framework.jar")
+        // try to find in classpath (e.g. "tags/select.tag" is located in "io.github.replay-framework:framework.jar")
         URL fromClasspath = Thread.currentThread().getContextClassLoader().getResource("views/" + queryPath);
         if (fromClasspath != null) {
             return new GTTemplateLocationReal(queryPath, fromClasspath);
