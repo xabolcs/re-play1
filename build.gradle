@@ -30,8 +30,9 @@ subprojects {
     options.debug = true
     options.debugOptions.debugLevel = "source,lines,vars"
   }
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
+  java.toolchain {
+    languageVersion = JavaLanguageVersion.of(javaVersion)
+  }
 
   repositories {
     mavenCentral()
