@@ -11,4 +11,8 @@ repositories {
   mavenCentral()
 }
 
+tasks.withType(JavaCompile).configureEach {
+  options.release = jdkVersion
+}
+
 apply from: '../replay-tests.gradle'

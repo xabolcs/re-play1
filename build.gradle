@@ -1,6 +1,9 @@
 defaultTasks 'clean', 'check', 'publishToMavenLocal'
 
 ext {
+  jdkVersion = 17
+  jreVersion = 11
+
   commonsLangVersion = '3.14.0'
   netty4Version = '4.1.109.Final'
   commonsTextVersion = '1.11.0'
@@ -29,7 +32,10 @@ subprojects {
     options.debugOptions.debugLevel = "source,lines,vars"
   }
   java.toolchain {
-    languageVersion = JavaLanguageVersion.of(17)
+    languageVersion = JavaLanguageVersion.of(jdkVersion)
+  }
+  tasks.withType(JavaCompile).configureEach {
+    options.release = jreVersion
   }
 
   repositories {
@@ -79,6 +85,19 @@ subprojects {
     testTask.systemProperties['user.language'] = 'tr'
     testTask.testLogging {exceptionFormat = 'full'}
     testTask.outputs.upToDateWhen { false }
+    if (
+      testTask.project.name != 'fastergt' &&
+      testTask.project.name != 'pdf' &&
+      testTask.project.configurations.testImplementation.allDependencies.withType(ProjectDependency).matching{
+        it.dependencyProject == project(':fastergt') ||
+        it.dependencyProject == project(':pdf')
+      }.size() == 0
+    ) {
+      javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(jreVersion)
+      }
+    }
+
   }
   
   dependencies {
