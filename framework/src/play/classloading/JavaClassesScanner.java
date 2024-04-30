@@ -3,15 +3,25 @@ package play.classloading;
 import static java.util.Collections.emptyList;
 
 import io.github.classgraph.ClassGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class JavaClassesScanner {
+  private static final Logger logger = LoggerFactory.getLogger(JavaClassesScanner.class);
+
   public List<Class<?>> allClassesInProject() {
     List<Class<?>> result = new ArrayList<>();
 
+    Instant start = Instant.now();
     List<File> classpath = new ClassGraph().getClasspathFiles();
+    logger.info("Getting classpath files took {} ms.", Duration.between(start, Instant.now()).toMillis());
 
     for (File file : classpath) {
       try {

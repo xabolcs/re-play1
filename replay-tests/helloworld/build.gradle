@@ -13,3 +13,34 @@ dependencies {
 }
 
 apply from: '../replay-tests.gradle'
+
+tasks.register('precompileTemplates', JavaExec) {
+  jvmArgs '-Xmx128m'
+  mainClass = 'play.modules.gtengineplugin.PrecompileTemplates'
+  classpath = files('conf/') + files(sourceSets.main.java.srcDirs) + configurations.runtimeClasspath
+  subprojects.each { p ->
+    classpath += p.configurations.runtimeClasspath
+  }
+
+  workingDir = buildDir
+
+  systemProperty 'file.encoding', 'UTF-8'
+
+  doLast {
+    copy {
+      from "${buildDir}/precompiled/java"
+      into sourceSets.main.output.classesDirs.asPath
+    }
+  }
+
+  doFirst {
+    copy {
+      from 'app/views'
+      into "${buildDir}/app/views"
+    }
+  }
+}
+
+classes {
+  dependsOn precompileTemplates
+}
