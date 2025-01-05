@@ -17,7 +17,7 @@ apply from: '../replay-tests.gradle'
 tasks.register('precompileTemplates', JavaExec) {
   jvmArgs '-Xmx128m'
   mainClass = 'play.modules.gtengineplugin.PrecompileTemplates'
-  classpath = files('conf/') + files(sourceSets.main.java.srcDirs) + configurations.runtimeClasspath
+  classpath = files('conf/') + files(sourceSets.main.java.srcDirs) + files(sourceSets.main.java.destinationDirectory) +  configurations.runtimeClasspath
   subprojects.each { p ->
     classpath += p.configurations.runtimeClasspath
   }
@@ -39,6 +39,8 @@ tasks.register('precompileTemplates', JavaExec) {
       into "${buildDir}/app/views"
     }
   }
+
+  dependsOn compileJava
 }
 
 classes {
