@@ -1,5 +1,8 @@
 package play.classloading;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
@@ -14,6 +17,9 @@ import java.util.Map;
 import java.util.function.BinaryOperator;
 
 public class ApplicationClasses {
+
+  private static final Logger logger = LoggerFactory.getLogger(ApplicationClasses.class);
+
   /** Cache of all compiled classes */
   private Map<String, Class> classes;
 
@@ -24,6 +30,7 @@ public class ApplicationClasses {
     if (classes == null) {
       List<Class<?>> applicationClasses = new JavaClassesScanner().allClassesInProject();
       classes = toMapIgnoringDuplicates(applicationClasses);
+      logger.trace("classes: {}", applicationClasses);
     }
     return classes;
   }

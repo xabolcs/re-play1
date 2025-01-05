@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.Play;
 import play.exceptions.TemplateException;
 import play.modules.gtengineplugin.InternalLegacyFastTagsImpls;
@@ -19,6 +21,8 @@ import play.templates.ExecutableTemplate;
 import play.templates.FastTags;
 
 public class GTLegacyFastTagResolver1X implements GTLegacyFastTagResolver {
+
+  private static final Logger logger = LoggerFactory.getLogger(GTLegacyFastTagResolver1X.class);
 
   private static class LegacyFastTag {
     public final String className;
@@ -36,6 +40,7 @@ public class GTLegacyFastTagResolver1X implements GTLegacyFastTagResolver {
   private static Map<String, LegacyFastTag> getTagName2FastTag() {
     synchronized (lock) {
       if (_tagName2FastTag == null) {
+        logger.trace("Filling up legacy tagname map");
         Map<String, LegacyFastTag> result = new HashMap<>();
 
         List<Class> classes = new ArrayList<>();
@@ -43,6 +48,7 @@ public class GTLegacyFastTagResolver1X implements GTLegacyFastTagResolver {
         classes.addAll(Play.classes.getAssignableClasses(FastTags.class));
 
         for (Class clazz : classes) {
+          logger.trace("Checking class {} for legacy FastTags compatibility", clazz);
           FastTags.Namespace namespace =
               (FastTags.Namespace) clazz.getAnnotation(FastTags.Namespace.class);
           String namespacePrefix = "";
@@ -54,6 +60,7 @@ public class GTLegacyFastTagResolver1X implements GTLegacyFastTagResolver {
             if (m.getName().startsWith("_") && Modifier.isStatic(m.getModifiers())) {
               String tagName = namespacePrefix + m.getName().substring(1);
               result.put(tagName, new LegacyFastTag(clazz.getName(), m.getName()));
+              logger.trace("Found legacy tag implementation in {}.{} for tag {}", clazz.getName(), m.getName(), tagName);
             }
           }
         }
@@ -70,9 +77,11 @@ public class GTLegacyFastTagResolver1X implements GTLegacyFastTagResolver {
   @Override
   public LegacyFastTagInfo resolveLegacyFastTag(String tagName) {
 
+    logger.trace("resolveLegacyFastTag called for {}", tagName);
     LegacyFastTag tag = getTagName2FastTag().get(tagName);
 
     if (tag == null) {
+      logger.trace("resolveLegacyFastTag: aaaand it's gone!");
       return null;
     }
 

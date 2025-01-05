@@ -22,6 +22,7 @@ public class JavaClassesScanner {
     Instant start = Instant.now();
     List<File> classpath = new ClassGraph().getClasspathFiles();
     logger.info("Getting classpath files took {} ms.", Duration.between(start, Instant.now()).toMillis());
+    logger.trace("classpath size is {} for {}", classpath.size(), classpath);
 
     for (File file : classpath) {
       try {
@@ -31,11 +32,13 @@ public class JavaClassesScanner {
       }
     }
 
+    logger.trace("all classes in project are: {}", result);
     return result;
   }
 
   private List<Class<?>> classesInDirectory(String packageName, File directory)
       throws ClassNotFoundException {
+    logger.trace("Examining directory {} for classes", directory);
     if (directory.getAbsolutePath().contains("/test")) return emptyList();
     if (directory.getAbsolutePath().contains("pdf/build/thirdParty"))
       return emptyList(); // it causes initialisation of org.xhtmlrenderer.swing.AWTFSImage which is slow
@@ -44,6 +47,7 @@ public class JavaClassesScanner {
     var files = directory.listFiles();
     if (files == null) return result;
     for (File file : files) {
+      logger.trace("Examining file {}", file);
       if (file.isDirectory()) {
         String subPackage =
             packageName == null ? file.getName() : packageName + '.' + file.getName();
@@ -52,6 +56,7 @@ public class JavaClassesScanner {
         String className =
             packageName == null ? classNameOf(file) : packageName + '.' + classNameOf(file);
         result.add(Class.forName(className, false, Thread.currentThread().getContextClassLoader()));
+        logger.trace("Found class {} in file {}", className, file);
       }
     }
     return result;

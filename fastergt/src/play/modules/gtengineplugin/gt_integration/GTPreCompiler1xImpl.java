@@ -2,6 +2,8 @@ package play.modules.gtengineplugin.gt_integration;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.template2.GTGroovyBase;
 import play.template2.GTJavaBase;
 import play.template2.GTTemplateRepo;
@@ -9,10 +11,14 @@ import play.template2.compile.GTPreCompiler;
 import play.template2.legacy.GTLegacyFastTagResolver;
 
 public class GTPreCompiler1xImpl extends GTPreCompiler {
+
+  private static final Logger logger = LoggerFactory.getLogger(GTPreCompiler1xImpl.class);
+
   private final GTLegacyFastTagResolver legacyFastTagResolver = new GTLegacyFastTagResolver1X();
 
   public GTPreCompiler1xImpl(GTTemplateRepo templateRepo) {
     super(templateRepo, new GTFastTagResolver1x());
+    logger.trace("constructor called");
   }
 
   // must modify all use of @{} in tag args
@@ -80,6 +86,7 @@ public class GTPreCompiler1xImpl extends GTPreCompiler {
 
   @Override
   public GTLegacyFastTagResolver getGTLegacyFastTagResolver() {
+    logger.trace("get legacy fasttag Resolver called!");
     return legacyFastTagResolver;
   }
 }

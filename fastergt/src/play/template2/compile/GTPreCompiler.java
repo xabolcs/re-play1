@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.template2.GTFastTagResolver;
 import play.template2.GTFileResolver;
 import play.template2.GTGroovyBase;
@@ -21,6 +23,8 @@ import play.template2.legacy.GTLegacyFastTagResolver;
 
 // TODO: This parsing code need some refactoring...
 public class GTPreCompiler {
+
+  private static final Logger logger = LoggerFactory.getLogger(GTPreCompiler.class);
 
   public static final String generatedPackageName = "play.template2.generated_templates";
 
@@ -837,16 +841,19 @@ public class GTPreCompiler {
     if (!gtInternalTagsCompiler.generateCodeForGTFragments(
         tagName, contentMethodName, sc, startLine)) {
       // Tag was not an internal tag - must resolve it diferently
+      logger.trace("Tag {} was not an internal tag - must resolve it differently", tagName);
 
       // check internal fastTags
       String fullnameToFastTagMethod = new GTInternalFastTags().resolveFastTag(tagName);
       if (fullnameToFastTagMethod != null) {
+        logger.trace("Resolved as {} by internal fastTags", fullnameToFastTagMethod);
         generateFastTagInvocation(sc, fullnameToFastTagMethod, contentMethodName);
       } else {
 
         // Check for custom fastTags
         if (customFastTagResolver != null
             && (fullnameToFastTagMethod = customFastTagResolver.resolveFastTag(tagName)) != null) {
+          logger.trace("Resolved as {} by custom fastTags", fullnameToFastTagMethod);
           generateFastTagInvocation(sc, fullnameToFastTagMethod, contentMethodName);
         } else {
 
@@ -856,9 +863,10 @@ public class GTPreCompiler {
           if (legacyFastTagResolver != null
               && (legacyFastTagInfo = legacyFastTagResolver.resolveLegacyFastTag(tagName))
                   != null) {
+            logger.trace("Resolved as {} by legacy fastTags", legacyFastTagInfo);
             generateLegacyFastTagInvocation(sc, legacyFastTagInfo, contentMethodName);
           } else {
-
+            logger.trace("Tag {} was not resolved to anything, legacy resolver was {}, looking for tag-file", tagName, legacyFastTagResolver);
             // look for tag-file
 
             // tag names can contain '.' which should be transoformed into '/'
