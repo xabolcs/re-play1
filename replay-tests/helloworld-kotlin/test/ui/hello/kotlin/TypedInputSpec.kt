@@ -6,10 +6,17 @@ import org.junit.jupiter.api.Test
 
 class TypedInputSpec : BaseSpec() {
   @Test
+  fun openPageDirect() {
+    Selenide.open("/direct/0")
+    Selenide.element("h1")
+      .shouldHave(Condition.text("Hello, User 0 with identifier type N/A and value type Long!"))
+  }
+
+  @Test
   fun openPageForced() {
     Selenide.open("/forced/1")
     Selenide.element("h1")
-      .shouldHave(Condition.text("Hello, User 1 with identifier type N/A and value type Long!"))
+      .shouldHave(Condition.text("Hello, User 1 with identifier type User and value type Long!"))
   }
 
   @Test
