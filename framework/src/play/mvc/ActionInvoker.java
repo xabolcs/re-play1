@@ -251,10 +251,13 @@ public class ActionInvoker {
   public static Method findActionMethod(String name, Class clazz) {
     while (!"java.lang.Object".equals(clazz.getName())) {
       for (Method m : clazz.getDeclaredMethods()) {
-        if (m.getName().equalsIgnoreCase(name) && Modifier.isPublic(m.getModifiers())) {
+        if (Modifier.isPublic(m.getModifiers())) {
           // Check that it is not an interceptor
           if (isActionMethod(m)) {
-            return m;
+            final String methodName = m.getName();
+            if (methodName.equalsIgnoreCase(name) || methodName.startsWith(name)) {
+              return m;
+            }
           }
         }
       }
