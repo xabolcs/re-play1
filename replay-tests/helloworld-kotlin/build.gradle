@@ -9,3 +9,9 @@ dependencies {
 }
 
 apply from: '../replay-tests.gradle'
+
+kotlin {
+  compilerOptions {
+    javaParameters = true
+  }
+}
