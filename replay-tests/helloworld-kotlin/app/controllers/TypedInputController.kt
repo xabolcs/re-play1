@@ -13,7 +13,7 @@ class TypedInputController : PlayController {
   fun printForced(userId: Long?): Result {
     if (userId == null) return BadRequest("forced userId missing")
     return View(
-      "index.html",
+      "typedinput.html",
       mapOf(
         "userId" to userId,
         "innerType" to userId::class.simpleName,
@@ -25,7 +25,7 @@ class TypedInputController : PlayController {
   fun printGeneric(userId: Identifier<User>?): Result {
     if (userId == null) return BadRequest("generic userId missing")
     return View(
-      "index.html",
+      "typedinput.html",
       mapOf(
         "userId" to userId,
         "innerType" to userId.value::class.simpleName,

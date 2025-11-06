@@ -1,3 +1,6 @@
 GET    /          HelloWorld.hello
 GET    /pdf       HelloWorld.helloPdf
 GET    /public/   staticDir:app/public
+
+GET    /typedinput/forced/{<[0-9]+>userId}   TypedInputController.printForced
+GET    /typedinput/generic/{<[0-9]+>userId}  TypedInputController.printGeneric
